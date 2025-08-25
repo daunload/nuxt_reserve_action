@@ -31,8 +31,8 @@ const scheduleColumn: TableColumn<ScheduleColumn>[] = [
 		header: 'Status',
 		cell: ({ row }) => {
 			const color = {
-				true: 'success' as const,
-				false: 'neutral' as const,
+				true: 'neutral' as const,
+				false: 'success' as const,
 			}[row.getValue('is_done') as string];
 
 			return h(
