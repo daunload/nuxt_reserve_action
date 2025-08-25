@@ -1,59 +1,59 @@
 <script setup lang="ts">
 import type { ApiResponse } from '#shared/types/api';
 import { type Schedule } from '~~/server/models/schedule.model';
-import { h, resolveComponent } from 'vue';
-import type { TableColumn } from '@nuxt/ui';
+import type { NavigationMenuItem } from '@nuxt/ui';
+import { UContainer, UButton } from '#components';
+import ScheduleTable from '~/entities/schedule/ui/ScheduleTable.vue';
 
-const { data, pending, error } =
-	await useFetch<ApiResponse<Schedule[]>>('/api/schedules');
+const { data } = await useFetch<ApiResponse<Schedule[]>>('/api/schedules');
 
-interface ScheduleColumn {
-	title: string;
-	status: 'pending' | 'done';
-	created: string;
-	action: string;
-}
-
-const UBadge = resolveComponent('UBadge');
-const scheduleColumn: TableColumn<ScheduleColumn>[] = [
-	{
-		accessorKey: '_id',
-		header: '#',
-		cell: ({ row }) => `#${row.getValue('_id')}`,
-	},
-	{
-		accessorKey: 'title',
-		header: 'Title',
-		cell: ({ row }) => `#${row.getValue('title')}`,
-	},
-	{
-		accessorKey: 'is_done',
-		header: 'Status',
-		cell: ({ row }) => {
-			const color = {
-				true: 'neutral' as const,
-				false: 'success' as const,
-			}[row.getValue('is_done') as string];
-
-			return h(
-				UBadge,
-				{ class: 'capitalize', variant: 'subtle', color },
-				() => (row.getValue('is_done') ? 'done' : 'pending'),
-			);
+const items = ref<NavigationMenuItem[][]>([
+	[
+		{
+			label: '스케쥴 관리',
 		},
-	},
-	{
-		accessorKey: 'createdAt',
-		header: 'created',
-	},
-	{
-		accessorKey: 'action_date',
-		header: 'action',
-	},
-];
+	],
+]);
+
+const selectedSchedules = ref<Schedule[]>([]);
+const onSelectSchedule = (schedules: Schedule[]) => {
+	selectedSchedules.value = schedules;
+};
+
+const removeSchedule = () => {
+	if (!selectedSchedules.value) return;
+
+	// TODO - 삭제 기능 추가
+};
 </script>
 
 <template>
-	<div v-if="pending">No data</div>
-	<UTable v-else :data="data.data" :columns="scheduleColumn" class="flex-1" />
+	<UContainer>
+		<div class="flex">
+			<UNavigationMenu
+				orientation="vertical"
+				:items="items"
+				class="data-[orientation=vertical]:w-48"
+			/>
+			<div class="">
+				<div class="flex gap-2 mb-4">
+					<UButton color="success">
+						{{ '추가' }}
+					</UButton>
+					<UButton
+						v-if="selectedSchedules.length > 0"
+						color="error"
+						@click="removeSchedule"
+					>
+						{{ '삭제' }}
+					</UButton>
+				</div>
+				<ScheduleTable
+					v-if="data?.success"
+					:items="data.data"
+					@select-item="onSelectSchedule"
+				></ScheduleTable>
+			</div>
+		</div>
+	</UContainer>
 </template>
