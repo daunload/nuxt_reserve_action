@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { ApiResponse } from '#shared/types/api';
-import { type Schedule } from '~~/server/models/schedule.model';
+import type { ScheduleDocument } from '~~/server/models/schedule.model';
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { UContainer, UButton } from '#components';
 import ScheduleTable from '~/entities/schedule/ui/ScheduleTable.vue';
 
-const { data } = await useFetch<ApiResponse<Schedule[]>>('/api/schedules');
+const { data } =
+	await useFetch<ApiResponse<ScheduleDocument[]>>('/api/schedules');
 
 const items = ref<NavigationMenuItem[][]>([
 	[
@@ -15,15 +16,24 @@ const items = ref<NavigationMenuItem[][]>([
 	],
 ]);
 
-const selectedSchedules = ref<Schedule[]>([]);
-const onSelectSchedule = (schedules: Schedule[]) => {
+const selectedSchedules = ref<ScheduleDocument[]>([]);
+const onSelectSchedule = (schedules: ScheduleDocument[]) => {
 	selectedSchedules.value = schedules;
 };
 
-const removeSchedule = () => {
+const removeSchedule = async () => {
 	if (!selectedSchedules.value) return;
 
 	// TODO - 삭제 기능 추가
+	const responseList = await Promise.all(
+		selectedSchedules.value.map(async (schedule) => {
+			await useFetch(`/api/schedules/${schedule._id}`, {
+				method: 'DELETE',
+			});
+		}),
+	);
+
+	console.log(responseList);
 };
 </script>
 

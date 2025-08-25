@@ -10,20 +10,20 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue';
 import type { TableColumn } from '@nuxt/ui';
-import type { Schedule } from '~~/server/models/schedule.model';
+import type { ScheduleDocument } from '~~/server/models/schedule.model';
 
 defineProps<{
-	items: Schedule[];
+	items: ScheduleDocument[];
 }>();
 
 const emit = defineEmits<{
-	(e: 'select-item', items: Schedule[]): void;
+	(e: 'select-item', items: ScheduleDocument[]): void;
 }>();
 
 const UBadge = resolveComponent('UBadge');
 const UCheckbox = resolveComponent('UCheckbox');
 
-const scheduleColumn: TableColumn<Schedule>[] = [
+const scheduleColumn: TableColumn<ScheduleDocument>[] = [
 	{
 		id: 'select',
 		header: ({ table }) =>

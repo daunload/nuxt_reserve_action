@@ -1,3 +1,1 @@
-export const useSchedule = () => {
-       
-}
+export const useSchedule = () => {};
