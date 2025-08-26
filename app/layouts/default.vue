@@ -24,9 +24,11 @@ const items = ref<NavigationMenuItem[][]>([
 			children: [
 				{
 					label: '스케쥴 현황',
+					to: '/schedules/list',
 				},
 				{
 					label: '스케쥴 추가',
+					to: '/schedules/add',
 				},
 			],
 		},
