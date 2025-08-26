@@ -29,6 +29,22 @@
 				</PopoverContent>
 			</Popover>
 		</UFormField>
+		<UFormField label="Time" required>
+			<TimePicker
+				v-model="actionTime"
+				placeholder="시간을 선택하세요"
+			></TimePicker>
+		</UFormField>
+		<UButton
+			class="w-fit"
+			active
+			color="neutral"
+			variant="outline"
+			active-color="primary"
+			active-variant="solid"
+		>
+			생성
+		</UButton>
 	</UContainer>
 </template>
 
@@ -36,7 +52,7 @@
 import type { DateValue } from '@internationalized/date';
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
 import { CalendarIcon } from 'lucide-vue-next';
-
+import TimePicker from '~/components/TimePicker.vue';
 import { ref } from 'vue';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -52,6 +68,7 @@ const df = new DateFormatter('en-US', {
 });
 
 const value = ref<DateValue>();
+const actionTime = ref('09:00');
 </script>
 
 <style></style>

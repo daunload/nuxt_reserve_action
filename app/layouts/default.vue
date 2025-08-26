@@ -1,15 +1,17 @@
 <template>
-	<AppHeader></AppHeader>
-	<UContainer>
-		<div class="flex">
-			<UNavigationMenu
-				orientation="vertical"
-				:items="items"
-				class="data-[orientation=vertical]:w-48"
-			/>
-			<slot />
-		</div>
-	</UContainer>
+	<div class="default">
+		<AppHeader></AppHeader>
+		<UContainer>
+			<div class="flex">
+				<UNavigationMenu
+					orientation="vertical"
+					:items="items"
+					class="data-[orientation=vertical]:w-48 mt-4"
+				/>
+				<slot />
+			</div>
+		</UContainer>
+	</div>
 </template>
 
 <script setup lang="ts">
