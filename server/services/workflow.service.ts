@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const GITHUB_OWNER = 'daunload';
-const GITHUB_REPO = 'express';
+const GITHUB_REPO = 'nuxt_reserve_action';
 const GITHUB_TOKEN = process.env.GITHUB_PAT;
 const EVENT_TYPE = 'build';
 const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/dispatches`;
