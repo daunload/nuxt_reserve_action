@@ -15,7 +15,7 @@ export const ScheduleJobService = {
 	},
 	remove(id: string) {
 		if (!scheduleJobs.has(id))
-			throw new AppError('삭제할 스케줄이 없습니다.', 400);
+			throw new AppError('삭제할 Job이 없습니다.', 400);
 
 		scheduleJobs.get(id)?.stop();
 		scheduleJobs.delete(id);

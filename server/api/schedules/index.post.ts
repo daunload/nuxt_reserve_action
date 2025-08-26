@@ -16,10 +16,7 @@ const ScheduleParamsSchema = z.object({
 export type ScheduleParams = z.infer<typeof ScheduleParamsSchema>;
 
 export default defineEventHandler(async (event) => {
-	const params = {
-		title: getRouterParam(event, 'title'),
-		action_date: getRouterParam(event, 'action_date'),
-	};
+	const params = getQuery(event);
 
 	const parsed = ScheduleParamsSchema.safeParse(params);
 	if (!parsed.success) {
