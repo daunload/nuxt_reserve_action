@@ -7,6 +7,10 @@ on:
 jobs:
     publish:
         runs-on: ubuntu-latest
+        env:
+            DB_URL: ${{ secrets.DB_URL }}
+            DB_NAME: ${{ secrets.DB_NAME }}
+            GH_PAT: ${{ secrets.GH_PAT }}
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
