@@ -110,11 +110,8 @@ const removeSchedule = async (id: string) => {
 
 	const deletedSchedule = await ScheduleModel.findByIdAndDelete(id).lean();
 
-	if (!deletedSchedule) {
-		throw new AppError('삭제할 스케줄이 없습니다.', 404);
-	}
-
-	ScheduleJobService.remove(deletedSchedule._id.toString());
+	if (deletedSchedule && !deletedSchedule.is_done)
+		ScheduleJobService.remove(id);
 
 	return deletedSchedule;
 };
