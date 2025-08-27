@@ -1,7 +1,7 @@
 <template>
 	<UContainer class="p-10 flex gap-4 flex-col">
 		<UFormField label="Title" required>
-			<UInput />
+			<UInput v-model="scheduleTitle" />
 		</UFormField>
 
 		<UFormField label="Date" required>
@@ -12,20 +12,16 @@
 						:class="
 							cn(
 								'w-[280px] justify-start text-left font-normal',
-								!value && 'text-muted-foreground',
+								!actionDate && 'text-muted-foreground',
 							)
 						"
 					>
 						<CalendarIcon class="mr-2 h-4 w-4" />
-						{{
-							value
-								? df.format(value.toDate(getLocalTimeZone()))
-								: 'Pick a date'
-						}}
+						{{ calendarText }}
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent class="w-auto p-0">
-					<Calendar v-model="value" initial-focus />
+					<Calendar v-model="actionDate" initial-focus />
 				</PopoverContent>
 			</Popover>
 		</UFormField>
@@ -42,6 +38,7 @@
 			variant="outline"
 			active-color="primary"
 			active-variant="solid"
+			@click="addSchedule"
 		>
 			생성
 		</UButton>
@@ -62,13 +59,45 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
+import { toLocalISOString } from '~~/server/utils/day';
 
 const df = new DateFormatter('en-US', {
 	dateStyle: 'long',
 });
 
-const value = ref<DateValue>();
+const scheduleTitle = ref('');
+const actionDate = ref<DateValue>();
+const calendarText = computed(() => {
+	return actionDate.value
+		? df.format(actionDate.value.toDate(getLocalTimeZone()))
+		: 'Pick a date';
+});
 const actionTime = ref('09:00');
+
+const addSchedule = async () => {
+	if (!scheduleTitle.value) return;
+	if (!actionDate.value) return;
+	if (!actionTime.value) return;
+
+	const date = new Date(
+		`${df.format(actionDate.value.toDate(getLocalTimeZone()))} ${actionTime.value}`,
+	);
+
+	const response = await $fetch('/api/schedules', {
+		method: 'post',
+		params: {
+			title: scheduleTitle.value,
+			action_date: toLocalISOString(date),
+		},
+	});
+
+	if (response.success) {
+		console.log(response.data);
+		await navigateTo('/schedules/list');
+	} else {
+		console.log(response);
+	}
+};
 </script>
 
 <style></style>

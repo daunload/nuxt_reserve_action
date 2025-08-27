@@ -83,7 +83,7 @@
 			</div>
 
 			<div class="border-t p-3">
-				<Button class="w-full" @click="confirmTime"> 확인 </Button>
+				<Button class="w-full" @click="confirm"> 확인 </Button>
 			</div>
 		</PopoverContent>
 	</Popover>
@@ -150,7 +150,7 @@ const updateTime = (field: 'hours' | 'minutes', increment: number) => {
 	}
 };
 
-const confirmTime = () => {
+const confirm = () => {
 	const timeString = `${hours.value.toString().padStart(2, '0')}:${minutes.value.toString().padStart(2, '0')}`;
 	emit('update:modelValue', timeString);
 	isOpen.value = false;

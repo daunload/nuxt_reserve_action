@@ -1,7 +1,7 @@
 <template>
 	<div class="default">
 		<AppHeader></AppHeader>
-		<UContainer>
+		<UContainer class="mt-4">
 			<div class="flex">
 				<UNavigationMenu
 					orientation="vertical"
