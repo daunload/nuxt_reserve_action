@@ -55,7 +55,7 @@ const scheduleColumn: TableColumn<ScheduleDocument>[] = [
 	{
 		accessorKey: 'title',
 		header: 'Title',
-		cell: ({ row }) => `#${row.getValue('title')}`,
+		cell: ({ row }) => `${row.getValue('title')}`,
 	},
 	{
 		accessorKey: 'is_done',
@@ -76,10 +76,14 @@ const scheduleColumn: TableColumn<ScheduleDocument>[] = [
 	{
 		accessorKey: 'createdAt',
 		header: 'Created',
+		cell: ({ row }) =>
+			`${new Date(row.getValue('createdAt')).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`,
 	},
 	{
 		accessorKey: 'action_date',
 		header: 'Action',
+		cell: ({ row }) =>
+			`${new Date(row.getValue('action_date')).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}`,
 	},
 ];
 

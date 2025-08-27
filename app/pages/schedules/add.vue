@@ -1,5 +1,5 @@
 <template>
-	<UContainer class="p-10 flex gap-4 flex-col">
+	<UContainer class="p-10 flex gap-4 flex-col w-fit justify-start">
 		<UFormField label="Title" required>
 			<UInput v-model="scheduleTitle" />
 		</UFormField>

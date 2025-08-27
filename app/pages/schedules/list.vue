@@ -4,8 +4,17 @@ import type { ScheduleDocument } from '~~/server/models/schedule.model';
 import { UButton } from '#components';
 import ScheduleTable from '~/entities/schedule/ui/ScheduleTable.vue';
 
-const { data } =
-	await useFetch<ApiResponse<ScheduleDocument[]>>('/api/schedules');
+const allSchedule = ref<ScheduleDocument[]>([]);
+onBeforeMount(() => {
+	refreshSchedules();
+});
+
+const refreshSchedules = async () => {
+	const response =
+		await $fetch<ApiResponse<ScheduleDocument[]>>('/api/schedules');
+
+	if (response.success) allSchedule.value = response.data;
+};
 
 const selectedSchedules = ref<ScheduleDocument[]>([]);
 const onSelectSchedule = (schedules: ScheduleDocument[]) => {
@@ -15,16 +24,15 @@ const onSelectSchedule = (schedules: ScheduleDocument[]) => {
 const removeSchedule = async () => {
 	if (!selectedSchedules.value) return;
 
-	// TODO - 삭제 기능 추가
-	const responseList = await Promise.all(
+	await Promise.all(
 		selectedSchedules.value.map(async (schedule) => {
-			await useFetch(`/api/schedules/${schedule._id}`, {
+			await $fetch(`/api/schedules/${schedule._id}`, {
 				method: 'DELETE',
 			});
 		}),
 	);
 
-	console.log(responseList);
+	refreshSchedules();
 };
 </script>
 
@@ -40,8 +48,7 @@ const removeSchedule = async () => {
 			</UButton>
 		</div>
 		<ScheduleTable
-			v-if="data && data.success"
-			:items="data.data"
+			:items="allSchedule as ScheduleDocument[]"
 			@select-item="onSelectSchedule"
 		></ScheduleTable>
 	</div>
