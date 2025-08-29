@@ -107,7 +107,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRoute } from '#imports';
 
 const isOpen = ref(false);
 const isDark = ref(false);

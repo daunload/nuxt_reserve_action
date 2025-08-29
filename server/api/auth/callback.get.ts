@@ -1,4 +1,5 @@
 import { sealData } from 'iron-session';
+import { findUserByEmail } from '~~/server/services/user.service';
 
 export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig(event);
@@ -35,6 +36,12 @@ export default defineEventHandler(async (event) => {
 			},
 		},
 	);
+
+	const user = await findUserByEmail(userInfo.email);
+
+	if (!user) {
+		return sendRedirect(event, '/login?error=user-not-found');
+	}
 
 	const sessionData = {
 		user: {

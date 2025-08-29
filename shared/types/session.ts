@@ -1,6 +1,6 @@
-export interface UserSession {
-	name: string;
-	email: string;
+import { type User } from '../../server/models/user.model';
+
+export interface UserSession extends User {
 	picture: string;
 }
 
