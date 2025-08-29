@@ -7,6 +7,9 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		DB_URL: process.env.DB_URL,
 		DB_NAME: process.env.DB_NAME,
+		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+		SESSION_PASSWORD: process.env.SESSION_PASSWORD,
 	},
 	shadcn: {
 		/**

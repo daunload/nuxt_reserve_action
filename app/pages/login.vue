@@ -14,82 +14,10 @@
 				@submit="handleSubmit"
 				class="flex flex-col"
 			>
-				<UFormGroup label="이메일 주소" name="email" class="mb-4">
-					<UInput
-						v-model="state.email"
-						placeholder="이메일을 입력하세요"
-						icon="i-heroicons-envelope"
-						size="lg"
-						class="w-full"
-					/>
-				</UFormGroup>
-
-				<UFormGroup label="비밀번호" name="password" class="mb-4">
-					<UInput
-						v-model="state.password"
-						class="w-full"
-						type="password"
-						placeholder="비밀번호를 입력하세요"
-						icon="i-heroicons-lock-closed"
-						size="lg"
-						:ui="{ icon: { trailing: { pointer: '' } } }"
-					>
-						<template #trailing>
-							<UButton
-								variant="link"
-								color="gray"
-								:icon="
-									state.showPassword
-										? 'i-heroicons-eye-slash'
-										: 'i-heroicons-eye'
-								"
-								:padded="false"
-								@click="
-									state.showPassword = !state.showPassword
-								"
-							/>
-						</template>
-					</UInput>
-				</UFormGroup>
-
-				<div class="flex justify-between items-center mb-6">
-					<UCheckbox
-						v-model="state.rememberMe"
-						label="로그인 상태 유지"
-					/>
-					<ULink
-						to="/forgot-password"
-						class="text-sm text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
-					>
-						비밀번호 찾기
-					</ULink>
-				</div>
-
-				<UButton
-					type="submit"
-					block
-					size="lg"
-					icon="i-heroicons-arrow-right"
-					trailing
-					class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
-				>
-					로그인
+				<UButton class="w-full bg-white flex justify-center">
+					<a href="/api/auth/google">구글 로그인</a>
 				</UButton>
 			</UForm>
-
-			<template #footer>
-				<p
-					class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6"
-				>
-					아직 계정이 없으신가요?
-					<ULink
-						to="/signup"
-						class="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 ml-1"
-					>
-						회원가입
-					</ULink>
-				</p>
-			</template>
 		</UCard>
 	</div>
 </template>

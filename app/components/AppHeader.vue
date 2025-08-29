@@ -24,12 +24,21 @@
 					<span v-if="!isDark">다크</span>
 					<span v-else>라이트</span>
 				</button>
+				<UButton
+					v-if="user"
+					@click="logout"
+					class="rounded-md bg-indigo-600 text-white px-4 py-2 text-sm font-medium hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+				>
+					로그아웃
+				</UButton>
 				<NuxtLink
+					v-else
 					to="/login"
 					class="rounded-md bg-indigo-600 text-white px-4 py-2 text-sm font-medium hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
 				>
 					로그인
 				</NuxtLink>
+				<UAvatar v-if="user" :src="user.picture" />
 			</div>
 
 			<!-- Mobile menu button -->
@@ -75,7 +84,15 @@
 						<span v-if="!isDark">다크</span>
 						<span v-else>라이트</span>
 					</button>
+					<UButton
+						v-if="user"
+						class="rounded-md bg-indigo-600 text-white px-4 py-2 text-sm font-medium hover:bg-indigo-500"
+						@click="logout"
+					>
+						로그아웃
+					</UButton>
 					<NuxtLink
+						v-else
 						to="/login"
 						class="rounded-md bg-indigo-600 text-white px-4 py-2 text-sm font-medium hover:bg-indigo-500"
 						@click="close()"
@@ -94,7 +111,6 @@ import { useRoute } from '#imports';
 
 const isOpen = ref(false);
 const isDark = ref(false);
-const route = useRoute();
 
 function close() {
 	isOpen.value = false;
@@ -117,6 +133,14 @@ onMounted(() => {
 	).matches;
 	applyTheme(saved ?? (prefersDark ? 'dark' : 'light'));
 });
+
+const user = useState<UserSession | null>('user');
+
+const logout = async () => {
+	await $fetch('/api/auth/logout', { method: 'POST' });
+	user.value = null;
+	await navigateTo('/login');
+};
 </script>
 
 <style scoped>
