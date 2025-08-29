@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-const GITHUB_OWNER = 'daunload';
-const GITHUB_REPO = 'nuxt_reserve_action';
 const GITHUB_TOKEN = process.env.GH_PAT;
-const EVENT_TYPE = 'build';
-const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/dispatches`;
+const EVENT_TYPE = 'deploy';
+const url = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/dispatches`;
 
 export const WorkflowService = {
-	async triggerWorkflow() {
+	async triggerWorkflow(branch: string) {
 		if (!GITHUB_TOKEN) {
 			console.error('GitHub 토큰이 서버에 설정되지 않았습니다.');
 		}
@@ -17,6 +15,9 @@ export const WorkflowService = {
 				url,
 				{
 					event_type: EVENT_TYPE,
+					client_payload: {
+						branch: branch,
+					},
 				},
 				{
 					headers: {
@@ -27,9 +28,14 @@ export const WorkflowService = {
 				},
 			);
 
-			// 2. GitHub API가 성공(204) 외 다른 상태를 반환한 경우
 			if (response.status !== 204) {
-				console.error(`GitHub API(Status: ${response.status})`);
+				console.error(
+					`GitHub API returned an unexpected status: ${response.status}`,
+				);
+			} else {
+				console.log(
+					`Successfully triggered workflow for branch: ${branch}`,
+				);
 			}
 
 			return;

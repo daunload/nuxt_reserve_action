@@ -22,7 +22,7 @@ const initSchedule = async () => {
 				schedule.action_date,
 				() => {
 					doneSchedule(schedule._id.toString());
-					WorkflowService.triggerWorkflow();
+					WorkflowService.triggerWorkflow('stage');
 				},
 			);
 		}
@@ -65,7 +65,7 @@ const createSchedule = async (title: string, actionDate: string) => {
 			actionDate, // Action date
 			() => {
 				doneSchedule(newSchedule._id.toString());
-				WorkflowService.triggerWorkflow();
+				WorkflowService.triggerWorkflow('stage');
 			},
 		);
 
