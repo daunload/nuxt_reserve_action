@@ -79,3 +79,8 @@ pnpm dev
 ---
 
 ## 📸 스크린샷
+<img width="1230" height="714" alt="Image" src="https://github.com/user-attachments/assets/be4bfa36-277f-49fe-af33-25dc053d21d9" />
+
+
+<img width="1202" height="779" alt="Image" src="https://github.com/user-attachments/assets/5c245009-6ac3-469d-bb83-216ac060abfc" />
+
