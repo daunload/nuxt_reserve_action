@@ -41,7 +41,11 @@ const getAllSchedule = async () => {
 /**
  * 스케줄 생성
  */
-const createSchedule = async (title: string, actionDate: string) => {
+const createSchedule = async (
+	title: string,
+	actionDate: string,
+	branch: string,
+) => {
 	const session = await startSession();
 	session.startTransaction();
 
@@ -51,6 +55,7 @@ const createSchedule = async (title: string, actionDate: string) => {
 				{
 					title: title,
 					action_date: actionDate,
+					branch: branch,
 				},
 			],
 			{ session },
@@ -61,11 +66,11 @@ const createSchedule = async (title: string, actionDate: string) => {
 		if (!newSchedule) throw new Error('스케쥴 생성 실패');
 
 		ScheduleJobService.create(
-			newSchedule._id.toString(), // Schedule ID
-			actionDate, // Action date
+			newSchedule._id.toString(),
+			actionDate,
 			() => {
 				doneSchedule(newSchedule._id.toString());
-				WorkflowService.triggerWorkflow('stage');
+				WorkflowService.triggerWorkflow(branch);
 			},
 		);
 

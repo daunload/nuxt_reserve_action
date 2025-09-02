@@ -11,6 +11,7 @@ const ScheduleParamsSchema = z.object({
 			'invalid action_date',
 		)
 		.min(1, 'action_date is required'),
+	branch: z.string().trim().min(1, 'branch is required'),
 });
 
 export type ScheduleParams = z.infer<typeof ScheduleParamsSchema>;
@@ -27,10 +28,10 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const { title, action_date } = parsed.data;
+	const { title, action_date, branch } = parsed.data;
 
 	try {
-		const schedule = await createSchedule(title, action_date);
+		const schedule = await createSchedule(title, action_date, branch);
 		setResponseStatus(event, 201);
 
 		return { success: true, data: schedule };

@@ -1,7 +1,7 @@
 <template>
 	<UContainer class="p-10 flex gap-4 flex-col w-fit justify-start">
 		<UFormField label="Title" required>
-			<UInput v-model="scheduleTitle" />
+			<UInput v-model="scheduleTitle" class="w-full" />
 		</UFormField>
 
 		<UFormField label="Date" required>
@@ -30,6 +30,13 @@
 				v-model="actionTime"
 				placeholder="시간을 선택하세요"
 			></TimePicker>
+		</UFormField>
+		<UFormField label="Branch">
+			<USelect
+				v-model="currentBranch"
+				:items="branchList"
+				class="w-full"
+			/>
 		</UFormField>
 		<UButton
 			class="w-fit"
@@ -88,6 +95,7 @@ const addSchedule = async () => {
 		params: {
 			title: scheduleTitle.value,
 			action_date: toLocalISOString(date),
+			branch: currentBranch.value,
 		},
 	});
 
@@ -98,6 +106,9 @@ const addSchedule = async () => {
 		console.log(response);
 	}
 };
+
+const branchList = ref(['main', 'stage']);
+const currentBranch = ref(branchList.value[1]);
 </script>
 
 <style></style>

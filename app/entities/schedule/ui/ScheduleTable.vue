@@ -58,6 +58,11 @@ const scheduleColumn: TableColumn<ScheduleDocument>[] = [
 		cell: ({ row }) => `${row.getValue('title')}`,
 	},
 	{
+		accessorKey: 'branch',
+		header: 'Branch',
+		cell: ({ row }) => `${row.getValue('branch')}`,
+	},
+	{
 		accessorKey: 'is_done',
 		header: 'Status',
 		cell: ({ row }) => {
