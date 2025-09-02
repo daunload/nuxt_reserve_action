@@ -31,7 +31,11 @@ export default defineEventHandler(async (event) => {
 	const { title, action_date, branch } = parsed.data;
 
 	try {
-		const schedule = await createSchedule(title, action_date, branch);
+		const schedule = await createSchedule(
+			title,
+			new Date(action_date),
+			branch,
+		);
 		setResponseStatus(event, 201);
 
 		return { success: true, data: schedule };

@@ -3,11 +3,10 @@ import AppError from '../utils/errors';
 
 const scheduleJobs = new Map<string, Cron>();
 export const ScheduleJobService = {
-	create(id: string, actionDate: string, callback: () => void) {
+	create(id: string, actionDate: Date, callback: () => void) {
 		if (scheduleJobs.has(id))
 			throw new AppError('id가 중복되었습니다.', 400);
 
-		console.log(actionDate);
 		const job = new Cron(actionDate, { timezone: 'Asia/Seoul' }, () => {
 			callback();
 			ScheduleJobService.remove(id);

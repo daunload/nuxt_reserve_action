@@ -8,7 +8,7 @@ import {
 const scheduleSchema = new Schema(
 	{
 		title: { type: String, required: true },
-		action_date: { type: String, required: true, unique: true },
+		action_date: { type: Date, required: true, unique: true },
 		branch: { type: String, required: true },
 		is_done: { type: Boolean, default: false },
 	},

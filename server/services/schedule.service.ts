@@ -11,17 +11,6 @@ const initSchedule = async () => {
 	const schedules = await ScheduleModel.find({}).lean();
 
 	for (const schedule of schedules) {
-		const raw = schedule.action_date;
-		const d = new Date(raw);
-		console.log(
-			'[raw]',
-			raw,
-			'[time]',
-			d.getTime(),
-			'[iso?]',
-			d.toISOString?.(),
-		);
-
 		if (Date.now() > new Date(schedule.action_date).getTime()) {
 			await ScheduleModel.updateOne(
 				{ _id: schedule._id },
@@ -54,7 +43,7 @@ const getAllSchedule = async () => {
  */
 const createSchedule = async (
 	title: string,
-	actionDate: string,
+	actionDate: Date,
 	branch: string,
 ) => {
 	const session = await startSession();
