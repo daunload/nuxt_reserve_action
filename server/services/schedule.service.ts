@@ -10,8 +10,10 @@ import { WorkflowService } from './workflow.service';
 const initSchedule = async () => {
 	const schedules = await ScheduleModel.find({}).lean();
 
+	console.log('init schedule');
 	for (const schedule of schedules) {
 		if (Date.now() > new Date(schedule.action_date).getTime()) {
+			console.log('update done schedule');
 			await ScheduleModel.updateOne(
 				{ _id: schedule._id },
 				{ $set: { is_done: true } },

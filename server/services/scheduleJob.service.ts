@@ -7,6 +7,7 @@ export const ScheduleJobService = {
 		if (scheduleJobs.has(id))
 			throw new AppError('id가 중복되었습니다.', 400);
 
+		console.log(actionDate);
 		const job = new Cron(actionDate, { timezone: 'Asia/Seoul' }, () => {
 			callback();
 			ScheduleJobService.remove(id);
